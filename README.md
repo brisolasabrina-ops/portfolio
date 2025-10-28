@@ -4,182 +4,895 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sabrina Brisola | Portfólio BI</title>
-  <link rel="icon" type="image/png" href="imagens/s-icon.png">
+  <link rel="icon" type="image/png" href="IMAGENS/s-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: "Poppins", sans-serif;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       margin: 0;
-      background-color: #1a0033;
-      color: white;
+      background: linear-gradient(to right, #050009, #1c0034);
+      color: #fff;
+      line-height: 1.6;
+      font-weight: 400;
+      font-feature-settings: "calt" 1, "liga" 1;
+    }
+
+    /* Wrapper para o conteúdo abaixo do header */
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      margin-top: 0; /* Remove margem superior indesejada */
     }
 
     header {
-      text-align: center;
-      padding: 2rem 1rem;
+      margin-bottom: 0;
+      background: linear-gradient(to bottom, rgba(56, 0, 98, 0.52), rgba(0, 0, 0, 0));
+      display: flex;
+      justify-content: space-between; /* Mantém o título à esquerda e a navegação à direita */
+      align-items: center;
+      padding: 15px 15px 15px 30px; /* Ajustado para padding simétrico (topo/baixo: 20px, esquerda/direita: 30px) */
+      position: sticky; /* Garante que o header permaneça visível ao rolar */
+      top: 0;
+      left: 0;
+      max-width: 100%; /* Garante a largura total da página */
+      z-index: 100;
+      opacity: 0;
+      animation: fadeIn 1s ease-out forwards;
+      transition: box-shadow 0.3s ease;
+      font-family: "Inter", sans-serif;
+    }
+
+    /* Camada de blur com gradiente */
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 80%);
+      z-index: -1;
+      background: linear-gradient(to bottom, rgba(56, 0, 98, 0.3), rgba(0, 0, 0, 0)); /* Fallback */
     }
 
     header h1 {
-      font-size: 2rem;
-      margin-bottom: 0.3rem;
-      color: #e6b3ff;
-    }
-
-    header p {
-      font-size: 1rem;
-      color: #c7a4ff;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #2e0854;
-      padding: 0.8rem;
-    }
-
-    nav a {
+      margin: 0;
       color: white;
+      font-size: clamp(1.5em, 4vw, 2em);
+      font-weight: 700;
+      transform: translateX(-20px);
+      opacity: 0;
+      animation: slideInLeft 0.8s ease-out 0.2s forwards, subtleGlow 5s ease-in-out infinite alternate;
+      transition: color 0.3s ease, transform 0.3s ease;
+      z-index: 1;
+    }
+
+    header nav {
+      z-index: 1;
+    }
+
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0 40px;
+    }
+
+    header nav a {
+      color: #e0c7ff;
       text-decoration: none;
-      margin: 0 1.5rem;
       font-weight: 500;
-      transition: color 0.3s;
+      transition: color 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out forwards;
+      animation-delay: calc(0.3s + 0.1s * var(--i));
+      font-feature-settings: "calt" 1;
     }
 
-    nav a:hover {
-      color: #d580ff;
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start; /* Alinha os itens no topo */
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 10px;
+      gap: 50px;
     }
 
-    main {
-      padding: 2rem;
-      max-width: 900px;
-      margin: auto;
+    .profile {
+      flex: 1 1 300px;
+      text-align: center;
     }
 
-    section {
-      margin-bottom: 3rem;
-    }
-
-    h2 {
-      color: #d580ff;
-      border-bottom: 1px solid #5e3370;
-      padding-bottom: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .projetos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .projeto {
-      background-color: #2e0854;
+    .profile img {
+      width: 550px;
       border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      animation: fadeInScale 1s ease-out 0.4s forwards;
+      transition: transform 0.3s ease;
+      margin-top: 0; /* Remove margem superior indesejada */
+      margin-bottom: -110px;
     }
 
-    .projeto:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 10px rgba(213, 128, 255, 0.4);
+    .profile img:hover {
+      transform: scale(1.04);
+      cursor: pointer;
     }
 
-    .projeto img {
+    .profile h1 {
+      margin: 0;
+      font-size: clamp(2em, 5vw, 2.5em);
+      font-weight: 700;
+      transform: translateX(-20px);
+      opacity: 0;
+      animation: slideInLeft 0.8s ease-out 0.6s forwards;
+      transition: color 0.3s ease, transform 0.3s ease;
+      letter-spacing: -0.025em;
+    }
+
+    .profile h1:hover {
+      color: #b278ff;
+      transform: translateY(-2px);
+      cursor: pointer;
+    }
+
+    .profile p {
+      margin: 5px 0 -40px 0;
+      color: #ccc;
+      font-size: 1.1em;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out forwards;
+      animation-delay: calc(0.7s + 0.2s * var(--i));
+      transition: color 0.3s ease, transform 0.3s ease;
+      line-height: 1.7;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile p:hover {
+      color: #e0c7ff;
+      transform: translateY(-2px);
+      cursor: pointer;
+    }
+
+    .about {
+      flex: 1 500px;
+    }
+
+    .about h2 {
+      color: #c497ff;
+      font-size: clamp(2.5em, 6vw, 3.5em);
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      transform: translateX(-20px);
+      opacity: 0;
+      animation: slideInLeft 0.8s ease-out 0.8s forwards;
+      transition: color 0.3s ease, transform 0.3s ease;
+      letter-spacing: -0.03em;
+    }
+
+    .about h2:hover {
+      color: #b278ff;
+      transform: translateY(-2px);
+      cursor: pointer;
+    }
+
+    .about p {
+      font-size: 1.1em;
+      color: #eee;
+      font-weight: 400;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out forwards;
+      animation-delay: calc(0.9s + 0.2s * var(--i));
+      transition: color 0.3s ease, transform 0.3s ease;
+      line-height: 1.75;
+    }
+
+    .about p:hover {
+      color: #e0c7ff;
+      transform: translateY(-2px);
+      cursor: pointer;
+    }
+
+    .en {
+      font-size: 0.85em;
+      color: #b8a8d9;
+      font-weight: 400;
+      display: inline;
+      margin-top: 5px;
+      transition: color 0.3s ease, transform 0.3s ease;
+      line-height: 1.6;
+    }
+
+    .en:hover {
+      color: #e0c7ff;
+      transform: translateY(-2px);
+      cursor: pointer;
+    }
+
+    .projects-section {
+      max-width: 1350px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .projects-section h2 {
+      color: #c497ff;
+      font-size: clamp(2.5em, 6vw, 3.5em);
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      transform: translateX(-20px);
+      opacity: 0;
+      animation: slideInLeft 0.8s ease-out 0.2s forwards;
+      transition: color 0.3s ease, transform 0.3s ease;
+      letter-spacing: -0.03em;
+    }
+
+    .projects-section h2:hover {
+      color: #b278ff;
+      transform: translateY(-2px);
+      cursor: pointer;
+    }
+
+    .project {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out forwards;
+      animation-delay: calc(0.4s + 0.3s * var(--i));
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .project.reverse {
+      flex-direction: row-reverse;
+    }
+
+    .project-thumbnail {
+      flex: 1 1 400px;
+    }
+
+    .project-thumbnail img {
+      box-shadow: 0 0 20px #a942fd81;
       width: 100%;
-      height: 180px;
-      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .projeto h3 {
-      margin: 1rem;
-      color: #e6b3ff;
+    .project-thumbnail img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 30px #a942fd;
+      cursor: pointer;
     }
 
-    .projeto p {
-      margin: 0 1rem 1rem;
-      font-size: 0.9rem;
-      color: #d1b3ff;
+    .project-description {
+      flex: 2 1 500px;
+    }
+
+    .project-description h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: clamp(1.5em, 3vw, 1.9em);
+      font-weight: 600;
+      color: #d1adff;
+      transform: translateX(-20px);
+      opacity: 0;
+      animation: slideInLeft 0.8s ease-out forwards;
+      animation-delay: calc(0.5s + 0.3s * var(--i));
+      transition: color 0.3s ease, transform 0.3s ease;
+      letter-spacing: -0.02em;
+    }
+
+    .project-description h3:hover {
+      color: #e0c7ff;
+      transform: translateY(-2px);
+      cursor: pointer;
+    }
+
+    .project-description p {
+      margin: 0 0 10px 0;
+      font-size: 1.05em;
+      color: #eee;
+      font-weight: 400;
+      line-height: 1.75;
+      transition: color 0.3s ease, transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-description p:hover {
+      color: #e0c7ff;
+      transform: translateY(-2px);
+      cursor: pointer;
+    }
+
+    .divider {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(178, 120, 255, 0.6), transparent);
+      margin: 25px 0;
+      transition: all 0.3s ease;
+    }
+
+    .divider:hover {
+      background: linear-gradient(90deg, transparent, #b278ff, transparent);
+      height: 3px;
+      cursor: pointer;
     }
 
     footer {
       text-align: center;
-      padding: 1.5rem;
-      background-color: #2e0854;
-      color: #c7a4ff;
-      font-size: 0.9rem;
+      padding: 30px;
+      background-color: #2d0052;
+      color: #ccc;
+      font-size: 0.95em;
+      opacity: 0;
+      animation: fadeIn 1s ease-out 1.2s forwards;
+      border-radius: 12px;
+      margin: 0 20px;
     }
 
-    .foto-perfil {
+    footer p {
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out forwards;
+      animation-delay: calc(1.3s + 0.2s * var(--i));
+      transition: color 0.3s ease, transform 0.3s ease;
+      font-weight: 400;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+    }
+
+    footer p:hover {
+      color: #e0c7ff;
+      transform: translateY(-2px);
+      cursor: pointer;
+    }
+
+    a {
+      color: #6c34c0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #b278ff;
+      transform: translateY(-1px);
+      cursor: pointer;
+    }
+
+    /* Animações */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Contador para animações escalonadas */
+    .profile p:nth-child(1) { --i: 1; }
+    .profile p:nth-child(2) { --i: 2; }
+    .about p:nth-child(2) { --i: 1; }
+    .about p:nth-child(3) { --i: 2; }
+    .about p:nth-child(4) { --i: 3; }
+    .project:nth-child(2) { --i: 1; }
+    .project:nth-child(3) { --i: 2; }
+    .project:nth-child(4) { --i: 3; }
+    nav li:nth-child(1) a { --i: 1; }
+    nav li:nth-child(2) a { --i: 2; }
+    nav li:nth-child(3) a { --i: 3; }
+    footer p:nth-child(1) { --i: 1; }
+    footer p:nth-child(2) { --i: 2; }
+
+    /* Enhanced Mobile Styles */
+    @media (max-width: 900px) {
+      /* General Reset for Mobile */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Header */
+      header {
+        flex-direction: column;
+        align-items: center; /* Centraliza verticalmente em mobile */
+        text-align: center;
+        padding: 12px 16px;
+        gap: 10px;
+        position: fixed; /* Mantém fixo em mobile */
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background-color: inherit;
+        transition: background-color 0.3s ease;
+      }
+
+      header h1 {
+        font-size: clamp(2rem, 6vw, 2.4rem);
+        margin-top: 10px;
+        margin-bottom: 8px;
+        transform: none;
+        line-height: 1.2;
+      }
+
+      header nav {
+        margin-top: 0;
+        width: 100%;
+      }
+
+      nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Centraliza os links em mobile */
+        gap: 0.75rem;
+        padding: 8px 0;
+      }
+
+      nav a {
+        font-size: clamp(1.1rem, 4vw, 1.25rem);
+        padding: 8px 0px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+
+      nav a:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      /* Seções */
+      section, .container, .projects-section {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      .container {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 60px; /* Ajuste para header fixo em mobile */
+      }
+
+      /* Perfil */
+      .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 0; /* Removido espaço entre elementos do perfil */
+      }
+
+      .profile img {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        object-fit: cover;
+        border-radius: 12px;
+        margin: 0; /* Removido margens */
+        margin-bottom: -70px;
+        margin-top: -45px;
+        padding-top: -50px;
+      }
+
+      .profile h1 {
+        font-size: clamp(2rem, 6vw, 2.5rem);
+        margin: 0; /* Removido margens */
+        text-align: center;
+        line-height: 1.3;
+      }
+
+      .profile p {
+        font-size: clamp(0.9rem, 3.5vw, 1rem);
+        line-height: 1.7;
+        text-align: center;
+        padding: 0 12px;
+        margin-top: 0; /* Removido margem superior */
+      }
+
+      /* Sobre */
+      .about {
+        text-align: justify;
+        padding: 0 20px;
+      }
+
+      .about h2 {
+        font-size: clamp(2.2rem, 6vw, 2.8rem);
+        margin-bottom: 20px;
+        text-align: center;
+        line-height: 1.7;
+      }
+
+      .about p {
+        font-size: clamp(0.9rem, 3.5vw, 1rem);
+        line-height: 1.75;
+        text-align: justify;
+      }
+
+      /* Projetos - ESPAÇO TOTALMENTE REMOVIDO */
+      .project, .project.reverse {
+        max-width: 100%;
+        flex-direction: column;
+        align-items: center;
+        text-align: justify;
+        gap: 0; /* Removido espaço interno entre imagem e descrição */
+        padding: 0; /* Removido padding interno */
+        margin-bottom: 0; /* Removido espaço entre projetos */
+        border-radius: 12px;
+        background-color: rgba(0, 0, 0, 0.03);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .project-thumbnail img {
+        width: 100%;
+        max-width: 600px;
+        object-fit: cover;
+        border-radius: 10px;
+        padding-bottom: -700px;
+      }
+
+      .project-description h3 {
+        gap: 0; /* Removido espaço interno entre imagem e descrição */
+        padding: 0; /* Removido padding interno */
+        margin-bottom: 0; /* Removido espaço entre projetos */
+        font-size: clamp(1.3rem, 4.5vw, 1.6rem);
+        margin: 0 0 0; /* Removido margens */
+        text-align: center;
+        line-height: 1.5;
+        padding-top: -500px;
+      }
+
+      .project-description p {
+        max-width: 100%;
+        gap: 0; /* Removido espaço interno entre imagem e descrição */
+        padding: 0; /* Removido padding interno */
+        margin-bottom: 0; /* Removido espaço entre projetos */
+        font-size: clamp(0.9rem, 3.5vw, 1rem);
+        line-height: 1.7;
+        text-align: justify;
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-bottom: -500px;
+      }
+
+      .divider {
+        margin: 24px 0;
+        height: 2px;
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      /* Footer */
+      footer {
+        border-radius: 12px;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.03);
+      }
+
+      footer p, footer a {
+        font-size: clamp(0.85rem, 3.2vw, 0.95rem);
+        line-height: 1.8;
+        text-align: justify;
+        word-wrap: break-word;
+        margin-bottom: 12px;
+      }
+
+      .whatsapp-link {
+        display: inline-flex;
+        align-items: center;
+        margin-top: 12px;
+        padding: 10px 18px;
+        border-radius: 8px;
+        background-color: #25D366;
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.2s ease;
+      }
+
+      .whatsapp-link:hover {
+        background-color: #20b358;
+      }
+
+      /* Accessibility and Performance */
+      :focus {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        loading: lazy;
+      }
+
+      /* Smooth Scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Prevent Horizontal Overflow */
+      body {
+        overflow-x: hidden;
+      }
+    }
+
+    /* Animações leves e intermitentes elegantes */
+    @keyframes subtleGlow {
+      0%, 100% { text-shadow: 0 0 5px rgba(179, 120, 255, 0.135); }
+      50% { text-shadow: 0 0 15px rgba(179, 120, 255, 0.487); }
+    }
+
+    @keyframes gentleGradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Aplicações */
+    header h1, .about h2, .projects-section h2 {
+      animation: slideInLeft 0.8s ease-out 0.2s forwards, subtleGlow 5s ease-in-out infinite alternate;
+    }
+
+    nav a {
+      animation: fadeIn 0.8s ease-out forwards, softPulse 8s ease-in-out infinite alternate;
+    }
+
+    .project-thumbnail img {
+      animation: fadeInScale 1s ease-out 0.4s forwards, softPulse 10s ease-in-out infinite alternate;
+    }
+
+    footer {
+      animation: fadeIn 1s ease-out 1.2s forwards, softPulse 12s ease-in-out infinite alternate;
+    }
+
+    /* Reduz espaçamento entre títulos e subtítulos em inglês */
+    h1 .en, h2 .en, h3 .en {
+      margin-top: -17px;
+      font-size: 0.7em;
+      opacity: 0.9;
       display: block;
-      margin: 0 auto 1rem;
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #d580ff;
+    }
+
+    /* Reduz distância entre títulos e elementos das seções */
+    .about h2, .projects-section h2, .profile h1 {
+      margin-bottom: 4px;
+      padding-bottom: 0;
+    }
+
+    .project-description h3 {
+      margin-bottom: 6px;
+    }
+
+    .about p, .project-description p, .profile p {
+      margin-top: 4px;
+    }
+
+    .whatsapp-link {
+      margin-top: -10px;
+      color: #fff; /* ou a cor que combina com o tema */
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .whatsapp-link:hover {
+      color: #25D366; /* verde WhatsApp no hover */
     }
   </style>
 </head>
-
 <body>
   <header>
-    <img src="imagens/3f36e098-3654-4b41-82ba-f1e8ab6e89e5.png" alt="Sabrina Brisola" class="foto-perfil">
     <h1>Sabrina Brisola</h1>
-    <p>Portfólio de Business Intelligence • Power BI • SQL • DAX</p>
+    <nav>
+      <ul>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
   </header>
-
-  <nav>
-    <a href="#sobre">Sobre mim</a>
-    <a href="#projetos">Projetos</a>
-    <a href="#contato">Contato</a>
-  </nav>
-
-  <main>
-    <section id="sobre">
-      <h2>Sobre mim</h2>
-      <p>
-        Sou estudante de Gestão de TI e analista com foco em Governança de Dados e Business Intelligence. 
-        Tenho experiência com análise de chamados e suporte técnico, utilizando ferramentas como Power BI, SQL, Active Directory e Salesforce.
-        Busco aprimorar a tomada de decisões estratégicas por meio da integração e análise inteligente de dados.
-      </p>
-    </section>
-
-    <section id="projetos">
-      <h2>Projetos</h2>
-      <div class="projetos">
-        <div class="projeto">
-          <img src="imagens/projeto1.png" alt="Dashboard de Vendas">
-          <h3>Dashboard de Vendas</h3>
-          <p>Criei um dashboard no Power BI integrando dados de vendas e produtividade para análise de desempenho comercial.</p>
+  <div class="content-wrapper">
+    <div class="container" id="sobre">
+      <div class="profile">
+        <img src="Imagens/3f36e098-3654-4b41-82ba-f1e8ab6e89e5.png" alt="Sabrina Brisola" onclick="window.open('https://www.linkedin.com/in/sabrinabrisola/', '_blank', 'noopener,noreferrer');">
+        <h1>Sabrina Brisola</h1>
+        <p>Analista de BI e Governança de Dados <span class="en">BI & Data Governance Analyst</span></p>
+      </div>
+      <div class="about">
+        <h2>Sobre mim <span class="en">(About Me)</span></h2>
+        <p>Sou uma profissional de TI dedicada à governança de dados, business intelligence e análise avançada, com foco em gerar valor por meio de insights precisos e conformidade regulatória. Com experiência prática em ambientes corporativos dinâmicos, como suporte computacional na SGS do Brasil, domino ferramentas como Power BI (incluindo DAX avançado), SQL, ETL e integrações com sistemas como Salesforce, SAP e Active Directory. Certificada em Google Data Analytics e fundamentos de BI, priorizo soluções inovadoras que otimizem processos, garantam qualidade de dados e atendam à LGPD, sempre em contextos colaborativos e multiculturais. <span class="en">I am an IT professional dedicated to data governance, business intelligence, and advanced analytics, focused on creating value through accurate insights and regulatory compliance. With hands-on experience in dynamic corporate environments, such as IT support at SGS Brazil, I master tools like Power BI (including advanced DAX), SQL, ETL, and integrations with systems such as Salesforce, SAP, and Active Directory. Certified in Google Data Analytics and BI fundamentals, I prioritize innovative solutions that optimize processes, ensure data quality, and comply with LGPD regulations, always in collaborative and multicultural contexts.</span></p>
+        <div class="divider"></div>
+      </div>
+    </div>
+    <section class="projects-section" id="projetos">
+      <h2>Projetos <span class="en">(Projects)</span></h2>
+      <div class="project">
+        <div class="project-thumbnail">
+          <a href="#"><img src="Imagens/Projetos.jpg" alt="Miniatura do Dashboard Executivo de Incidentes"></a>
         </div>
-
-        <div class="projeto">
-          <img src="imagens/projeto2.png" alt="Análise de Custos">
-          <h3>Análise de Custos e Processos</h3>
-          <p>Estruturei indicadores financeiros e de processos, otimizando a visualização dos custos e resultados operacionais.</p>
+        <div class="project-description">
+          <h3>Consolidação de Dados e Otimização de Processos</h3>
+          <p>Desenvolvi um projeto de integração de dados provenientes de diferentes fontes, como ERP, CRM e planilhas, para gerar insights sobre processos, produtividade e vendas. Estruturei os dados de forma organizada e criei dashboards no Power BI, permitindo análises mais rápidas e decisões estratégicas fundamentadas em dados confiáveis.
+<span class="en">I developed a project integrating data from different sources, such as ERP, CRM, and spreadsheets, to generate insights on processes, productivity, and sales. I structured the data in an organized way and created dashboards in Power BI, enabling faster analysis and strategic decision-making based on reliable data.</span></p>
+          <div class="divider"></div>
         </div>
-
-        <div class="projeto">
-          <img src="imagens/projeto3.png" alt="Governança de Dados">
-          <h3>Governança de Dados</h3>
-          <p>Desenvolvi estrutura de controle e relatórios técnicos voltados à qualidade e confiabilidade das informações corporativas.</p>
+      </div>
+      <div class="project reverse">
+        <div class="project-thumbnail">
+          <a href="#"><img src="Imagens/Projetos.jpg" alt="Miniatura da Otimização de Dados Sensíveis"></a>
+        </div>
+        <div class="project-description">
+          <h3>Dashboard de Qualidade de Dados</h3>
+          <p>Criei dashboards para identificar inconsistências, duplicidades e informações incompletas em conjuntos de dados. O projeto permitiu monitorar a qualidade das informações e fornecer indicadores que apoiam a tomada de decisão, reforçando boas práticas de governança de dados.
+<span class="en">I created dashboards to identify inconsistencies, duplicates, and incomplete information within datasets. The project enabled monitoring data quality and providing indicators that support decision-making, reinforcing best practices in data governance.</span></p>
+          <div class="divider"></div>
+        </div>
+      </div>
+      <div class="project">
+        <div class="project-thumbnail">
+          <a href="#"><img src="Imagens/Projetos.jpg" alt="Miniatura da Análise de Conformidade e Riscos de Dados"></a>
+        </div>
+        <div class="project-description">
+          <h3>Análise de Conformidade de Dados (LGPD/Compliance)</h3>
+          <p>Realizei uma análise detalhada de dados para identificar informações sensíveis e avaliar a aderência às normas de compliance e LGPD. Utilizei SQL para checar inconsistências e criei relatórios executivos que transformam dados complexos em insights estratégicos, garantindo a segurança e integridade das informações.
+<span class="en">I conducted a detailed data analysis to identify sensitive information and assess adherence to compliance standards and LGPD. I used SQL to check for inconsistencies and created executive reports that transform complex data into strategic insights, ensuring the security and integrity of information.</span></p>
+          <div class="divider"></div>
         </div>
       </div>
     </section>
+    <footer id="contato">
+      <p>Contato: <a href="mailto:brisola.sabrina@gmail.com">brisola.sabrina@gmail.com</a><p><a href="https://wa.me/5511943137543" target="_blank" class="whatsapp-link">(11) 94313-7543</a></p>
+      <span class="en">Contact: <a href="mailto:brisola.sabrina@gmail.com">brisola.sabrina@gmail.com</a> | Phone: +55 (11) 94313-7543</span></p>
+      <div class="divider"></div>
+    </footer>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let autoScrollTimeout = null;
+      let userScrollTimeout = null;
+      let isAutoScrolling = false;
+      let scrollAnimationFrame = null;
 
-    <section id="contato">
-      <h2>Contato</h2>
-      <p>
-        💼 <strong>Email:</strong> sabrinabrisola.s@gmail.com<br>
-        🔗 <strong>LinkedIn:</strong> 
-        <a href="https://www.linkedin.com/in/sabrinabrisola" target="_blank" style="color:#e6b3ff; text-decoration:none;">
-          linkedin.com/in/sabrinabrisola
-        </a>
-      </p>
-    </section>
-  </main>
+      const delayBeforeScroll = 2600; // tempo parado para iniciar animação
+      const pauseAfterUserScroll = 11000; // pausa após interação do usuário
+      const scrollDuration = 33000; // duração do scroll
 
-  <footer>
-    <p>© 2025 Sabrina Brisola | Portfólio BI</p>
-  </footer>
+      const userInteractionEvents = ['wheel','touchstart','keydown','mousedown'];
+
+      function bezierEase(t) {
+        return 3*t*t - 2*t*t*t; // curva suave
+      }
+
+      function smoothScrollTo(to, duration, onComplete) {
+        const start = window.scrollY;
+        const change = to - start;
+        const startTime = performance.now();
+
+        function step(now) {
+          if (!isAutoScrolling) return;
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = bezierEase(progress);
+          window.scrollTo(0, start + change * eased);
+
+          if (progress < 1) {
+            scrollAnimationFrame = requestAnimationFrame(step);
+          } else {
+            scrollAnimationFrame = null;
+            if (typeof onComplete === 'function') onComplete();
+          }
+        }
+
+        scrollAnimationFrame = requestAnimationFrame(step);
+      }
+
+      function stopAutoScrollAndPause() {
+        if (scrollAnimationFrame) cancelAnimationFrame(scrollAnimationFrame);
+        scrollAnimationFrame = null;
+        isAutoScrolling = false;
+
+        clearTimeout(autoScrollTimeout);
+        clearTimeout(userScrollTimeout);
+
+        userScrollTimeout = setTimeout(() => {
+          startAutoScrollCycle();
+        }, pauseAfterUserScroll);
+      }
+
+      function startAutoScrollCycle() {
+        if (isAutoScrolling) return;
+        isAutoScrolling = true;
+
+        const bottom = document.body.scrollHeight - window.innerHeight;
+        const current = window.scrollY;
+
+        // determina se deve ir para o topo ou bottom baseado na posição atual
+        const target = current < bottom / 2 ? bottom : 0;
+
+        smoothScrollTo(target, scrollDuration, () => {
+          if (!isAutoScrolling) return;
+          setTimeout(() => {
+            const nextTarget = target === 0 ? bottom : 0;
+            smoothScrollTo(nextTarget, scrollDuration, () => {
+              isAutoScrolling = false;
+              startAutoScrollCycle();
+            });
+          }, 1000);
+        });
+      }
+
+      // eventos do usuário pausam animação
+      function onUserInteractionDuringAuto() {
+        if (isAutoScrolling) stopAutoScrollAndPause();
+        else {
+          clearTimeout(userScrollTimeout);
+          clearTimeout(autoScrollTimeout);
+          userScrollTimeout = setTimeout(() => startAutoScrollCycle(), pauseAfterUserScroll);
+        }
+      }
+
+      userInteractionEvents.forEach(ev => {
+        window.addEventListener(ev, onUserInteractionDuringAuto, { passive: true });
+      });
+
+      // listener de scroll apenas para reiniciar timers quando não estiver animando
+      window.addEventListener('scroll', () => {
+        if (isAutoScrolling) return;
+        clearTimeout(userScrollTimeout);
+        clearTimeout(autoScrollTimeout);
+        userScrollTimeout = setTimeout(() => startAutoScrollCycle(), pauseAfterUserScroll);
+      }, { passive: true });
+
+      // inicia a animação após delay
+      autoScrollTimeout = setTimeout(() => startAutoScrollCycle(), delayBeforeScroll);
+    });
+  </script>
 </body>
 </html>
